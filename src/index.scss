@@ -1,0 +1,106 @@
+$black: #212227;
+$turquoise: #72efdd;
+//$turquoise: #64dfdf;
+$sky-blue-caryola: #56cfe1;
+
+$brand-colors: github #171515, youtube #f00, soundcloud #f70;
+
+// Font Awesome brands stylesheet does not include this.
+i.fab {
+  font-style: normal;
+}
+
+body {
+  color: #fff;
+  background-color: $black;
+  font-family: "Roboto", sans-serif;
+}
+
+header {
+  margin-top: 3rem;
+
+  text-align: center;
+
+  h1 {
+    margin: 0;
+
+    font-size: 3rem;
+
+    color: $turquoise;
+    font-family: "Roboto Mono", monospace;
+  }
+  small {
+    // todo: add roboto italic
+    font-style: italic;
+  }
+}
+
+#social-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 3rem;
+}
+.social-button {
+  margin: 5px;
+  padding: 10px 20px;
+
+  color: $turquoise;
+  border: 1px solid $turquoise;
+  border-radius: 6px;
+  text-decoration: none;
+
+  transition: all 200ms;
+
+  i {
+    font-size: 1.1rem;
+  }
+
+  &:hover {
+    transform: scale(105%);
+
+    @each $brand, $color in $brand-colors {
+      &.#{$brand} {
+        background-color: $color;
+        border-color: $color;
+        color: #fff;
+      }
+    }
+  }
+}
+
+#social-link-transition {
+  display: none;
+  position: fixed;
+  z-index: 999;
+
+  // Both using vw so it's circle.
+  width: 300vw;
+  height: 300vw;
+
+  border-radius: 100%;
+
+  @each $brand, $color in $brand-colors {
+    &.#{$brand} {
+      background-color: $color;
+    }
+  }
+
+  &.show {
+    display: block;
+
+    animation: social-link-transition 500ms forwards;
+  }
+}
+
+@keyframes social-link-transition {
+  0% {
+    transform: translateX(-50%) translateY(-50%) scale(0%);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-50%) scale(100%);
+    // Has to be here as well.
+    z-index: 999;
+  }
+}
