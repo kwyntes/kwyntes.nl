@@ -6,8 +6,12 @@ document.querySelectorAll(".social-button").forEach((socialButton) => {
   socialButton.addEventListener("click", (e) => {
     slt.style.left = e.pageX + "px";
     slt.style.top = e.pageY + "px";
-    // classList[1] is the brand class
-    slt.classList.add(e.target.classList[1], "show");
+
+    e.target.classList.forEach((className) => {
+      if (className !== "social-button") {
+        slt.classList.add(className, "show");
+      }
+    });
   });
 });
 
