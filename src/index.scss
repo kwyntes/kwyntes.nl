@@ -5,6 +5,21 @@ $sky-blue-caryola: #56cfe1;
 
 $brand-colors: github #171515, youtube #f00, soundcloud #f70;
 
+@mixin hover-active {
+  // Might not be the ideal solution for devices that support
+  // both touch and mouse input
+  @media (any-hover: none) {
+    &:active {
+      @content;
+    }
+  }
+  @media (any-hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
 // Font Awesome brands stylesheet does not include this.
 i.fab {
   font-style: normal;
@@ -57,7 +72,7 @@ header {
     font-size: 1.1rem;
   }
 
-  &:hover {
+  @include hover-active {
     transform: scale(105%);
 
     @each $brand, $color in $brand-colors {
