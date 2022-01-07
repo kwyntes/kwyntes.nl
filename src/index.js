@@ -15,7 +15,7 @@ document.querySelectorAll(".social-button").forEach((socialButton) => {
   });
 });
 
-// Remove the overlay when user returns to the page via the back button
+// Reset the overlay when user returns to the page via the back button
 window.addEventListener("pageshow", () => {
-  slt.classList.remove("show");
+  slt.classList.remove(...slt.classList);
 });
