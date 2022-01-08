@@ -1,7 +1,6 @@
 $black: #212227;
 $turquoise: #72efdd;
-//$turquoise: #64dfdf;
-$sky-blue-caryola: #56cfe1;
+$blue-caryola: #3777ff;
 
 $brand-colors: github #171515, youtube #f00, soundcloud #f70;
 
@@ -20,15 +19,36 @@ $brand-colors: github #171515, youtube #f00, soundcloud #f70;
   }
 }
 
+// Has to be declared at top-level.
+$theme: null;
+@mixin use-theme {
+  $theme: dark !global;
+  @content;
+
+  @media (prefers-color-scheme: light) {
+    $theme: light !global;
+    @content;
+  }
+}
+
+@function from-theme($dark-theme-variant, $light-theme-variant) {
+  @return if($theme == dark, $dark-theme-variant, $light-theme-variant);
+}
+
 // Font Awesome brands stylesheet does not include this.
 i.fab {
   font-style: normal;
 }
 
 body {
-  color: #fff;
-  background-color: $black;
+  //color: #fff;
+  //background-color: $black;
   font-family: "Roboto", sans-serif;
+
+  @include use-theme {
+    color: from-theme(#fff, $black);
+    background-color: from-theme($black, #fff);
+  }
 }
 
 header {
@@ -41,8 +61,12 @@ header {
 
     font-size: 3rem;
 
-    color: $turquoise;
+    //color: $turquoise;
     font-family: "Roboto Mono", monospace;
+
+    @include use-theme {
+      color: from-theme($turquoise, $blue-caryola);
+    }
   }
   small {
     // todo: add roboto italic
@@ -61,8 +85,10 @@ header {
   margin: 5px;
   padding: 10px 20px;
 
-  color: $turquoise;
-  border: 1px solid $turquoise;
+  @include use-theme {
+    color: from-theme($turquoise, $blue-caryola);
+    border: 1px solid from-theme($turquoise, $blue-caryola);
+  }
   border-radius: 6px;
   text-decoration: none;
 
