@@ -16,6 +16,6 @@ document.querySelectorAll(".social-button").forEach((socialButton) => {
 });
 
 // Reset the overlay when user returns to the page via the back button
-window.addEventListener("pageshow", () => {
-  slt.classList.remove(...slt.classList);
-});
+const resetOverlay = () => slt.classList.remove(...slt.classList);
+window.addEventListener("pageshow", resetOverlay);
+document.addEventListener("visibilitychange", resetOverlay);
