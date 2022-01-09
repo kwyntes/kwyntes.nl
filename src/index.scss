@@ -25,10 +25,14 @@ $theme: null;
   $theme: dark !global;
   @content;
 
-  @media (prefers-color-scheme: light) {
-    $theme: light !global;
-    @content;
-  }
+  // Disabled for now as I want the dark theme to be default,
+  // unless the user specifically wants light mode. Sadly, light is
+  // the default mode and there is no support for "no preference"
+  // via media queries.
+  //@media (prefers-color-scheme: light) {
+  //  $theme: light !global;
+  //  @content;
+  //}
 }
 
 @function from-theme($dark-theme-variant, $light-theme-variant) {
