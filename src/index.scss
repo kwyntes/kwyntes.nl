@@ -1,8 +1,15 @@
+// Godawful code but fuck it it works and I don't want to spend anymore time on this
+// might refactor later if i have the energy
+
 $black: #212227;
 $turquoise: #72efdd;
 $blue-caryola: #3777ff;
 
-$brand-colors: github #171515, youtube #f00, soundcloud #f70;
+$brand-colors: (
+  'github': #171515,
+  'youtube': #f00,
+  'soundcloud': #f70,
+);
 
 @mixin hover-active {
   // Might not be the ideal solution for devices that support
@@ -29,10 +36,10 @@ $theme: null;
   // unless the user specifically wants light mode. Sadly, light is
   // the default mode and there is no support for "no preference"
   // via media queries.
-  //@media (prefers-color-scheme: light) {
-  //  $theme: light !global;
-  //  @content;
-  //}
+  // @media (prefers-color-scheme: light) {
+  //   $theme: light !global;
+  //   @content;
+  // }
 }
 
 @function from-theme($dark-theme-variant, $light-theme-variant) {
@@ -47,12 +54,15 @@ i.fab {
 body {
   //color: #fff;
   //background-color: $black;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 
   @include use-theme {
     color: from-theme(#fff, $black);
     background-color: from-theme($black, #fff);
   }
+
+  // for when the outbound transition for clicking on an upload scales it out of view
+  overflow-x: hidden;
 }
 
 header {
@@ -66,7 +76,7 @@ header {
     font-size: 3rem;
 
     //color: $turquoise;
-    font-family: "Roboto Mono", monospace;
+    font-family: 'Roboto Mono', monospace;
 
     @include use-theme {
       color: from-theme($turquoise, $blue-caryola);
@@ -80,14 +90,19 @@ header {
 
 #social-buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
 
-  margin-top: 3rem;
+  margin-top: 1rem;
+
+  @media (min-width: 450px) {
+    //flex-direction: row;
+  }
 }
 .social-button {
   margin: 5px;
-  padding: 10px 20px;
+  padding: 12px;
 
   @include use-theme {
     color: from-theme($turquoise, $blue-caryola);
@@ -96,7 +111,7 @@ header {
   border-radius: 6px;
   text-decoration: none;
 
-  transition: all 200ms;
+  transition: all 150ms;
 
   i {
     font-size: 1.1rem;
@@ -113,9 +128,20 @@ header {
       }
     }
   }
+
+  span {
+    display: none;
+  }
+
+  @media (min-width: 460px) {
+    padding: 12px 20px;
+    span {
+      display: inline;
+    }
+  }
 }
 
-#social-link-transition {
+#outbound-transition {
   display: none;
   position: fixed;
   z-index: 999;
@@ -135,11 +161,11 @@ header {
   &.show {
     display: block;
 
-    animation: social-link-transition 500ms forwards;
+    animation: outbound-transition 500ms forwards;
   }
 }
 
-@keyframes social-link-transition {
+@keyframes outbound-transition {
   0% {
     transform: translateX(-50%) translateY(-50%) scale(0%);
   }
@@ -147,5 +173,210 @@ header {
     transform: translateX(-50%) translateY(-50%) scale(100%);
     // Has to be here as well.
     z-index: 999;
+  }
+}
+
+#anti-garbage-msg {
+  font-family: Roboto Mono;
+  font-style: italic;
+  text-align: center;
+  font-size: 0.7em;
+  a {
+    color: $blue-caryola;
+  }
+}
+
+main {
+  margin-top: 2rem;
+
+  display: flex;
+  justify-content: center;
+}
+
+#side-by-side-spacer {
+  display: none;
+  width: 1rem;
+}
+
+// TODO: instead of this just remove the elements completely with javascript
+// makes more sense as we're already using javascript for this
+#yt-videolist {
+  display: none;
+}
+#sc-tracklist {
+  display: none;
+}
+@media (min-width: 1400px) {
+  #combined-list {
+    display: none;
+  }
+  #yt-videolist {
+    display: block;
+  }
+  #side-by-side-spacer {
+    display: block;
+  }
+  #sc-tracklist {
+    display: block;
+  }
+
+  main {
+    margin-inline: 1rem;
+  }
+}
+
+.list {
+  padding: 0 10px;
+
+  // make columns same width (https://stackoverflow.com/a/47323475/8649828)
+  flex: 1 1 0;
+  width: 0;
+}
+.upload-wrapper {
+  display: block;
+  padding: 10px;
+  box-shadow: lighten($turquoise, 0) 0px 2px 5px;
+  border: 1px solid $turquoise;
+  border-radius: 15px;
+  background: lighten($black, 0);
+  //font-family: 'Roboto Mono';
+  transition: all 150ms;
+  margin-bottom: 1em;
+  color: #fff;
+  text-decoration: none !important;
+
+  @include hover-active {
+    border: 1px solid lighten($turquoise, 20);
+    box-shadow: lighten($turquoise, 40) 0px 2px 20px;
+    transform: scale(101%);
+
+    h3 {
+      color: lighten($turquoise, 20);
+    }
+
+    .fa-soundcloud {
+      color: lighten(map-get($brand-colors, 'soundcloud'), 10);
+    }
+    .fa-youtube {
+      color: lighten(map-get($brand-colors, 'youtube'), 10);
+    }
+  }
+
+  &.fade-out {
+    animation: fade-out 500ms forwards;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    box-shadow: lighten($turquoise, 20) 0px 2px 500px;
+    opacity: 0;
+  }
+}
+
+.upload-wrapper > div {
+  display: flex;
+  flex-direction: column;
+
+  @media only screen and (min-width: 642px) {
+    flex-direction: row;
+
+    img {
+      max-width: 14rem;
+    }
+  }
+
+  img {
+    // object-fit: cover;
+    // width: 100%;
+    // height: 100%;
+    // display: inline-block;
+    // min-height: 1px;
+    // min-width: 1px;
+    // margin: auto;
+
+    //width: 100%;
+    object-fit: contain;
+
+    &.soundcloud {
+      min-width: 14rem;
+    }
+    &.youtube {
+      min-width: 20rem;
+    }
+  }
+
+  .content {
+    padding: 5px 20px;
+  }
+
+  h3 {
+    margin: 10px 0 0 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    transition: all 200ms;
+
+    // display: -webkit-box;
+    // -webkit-box-orient: vertical;
+    // -webkit-line-clamp: 1;
+
+    // Hack to add hardware acceleration to the scale() animation which fixes some nastiness with the letters moving around weirdly
+    // (taken from https://stackoverflow.com/a/16878602/8649828)
+    transform: translateZ(0);
+  }
+
+  p {
+    color: lighten($black, 60);
+    text-overflow: ellipsis;
+    // white-space: wrap;
+    // overflow: hidden;
+    // //word-break: break-all;
+    // width: 100%;
+    max-width: 40em;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    max-height: 4em;
+    -webkit-line-clamp: 3; // TODO: find a way to somehow change this based on the available space created by the image height
+    // ((hopefully that doesn't require javascript but since the layout already depends on javascript and who the fuck has that disabled anyway that's not actually an issue))
+    white-space: pre-wrap;
+  }
+
+  position: relative;
+  i {
+    position: absolute;
+    right: 5px;
+    bottom: 2px;
+    color: lighten($black, 80);
+    transition: all 150ms;
+  }
+}
+
+.overlay {
+  &:before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+  }
+  @each $brand in 'soundcloud', 'youtube' {
+    &.#{$brand}:before {
+      animation: fill-#{$brand} 250ms forwards;
+    }
+  }
+}
+
+@each $brand in 'soundcloud', 'youtube' {
+  @keyframes fill-#{$brand} {
+    0% {
+      background: none;
+    }
+    100% {
+      background: map-get($brand-colors, $brand);
+    }
   }
 }

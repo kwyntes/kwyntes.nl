@@ -2,4 +2,8 @@ node_modules/
 
 .parcel-cache/
 
+.wrangler/
+
+.dev.vars
+
 dist/

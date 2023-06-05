@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Disable Dark Reader extension in case that is installed, since the website already uses a dark theme -->
+    <meta name="darkreader-lock" />
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,8 +18,15 @@
     <!-- Icons -->
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/brands.min.css"
-      integrity="sha512-rQgMaFKZKIoTKfYInSVMH1dSM68mmPYshaohG8pK17b+guRbSiMl9dDbd3Sd96voXZeGerRIFFr2ewIiusEUgg=="
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css"
+      integrity="sha512-SgaqKKxJDQ/tAUAAXzvxZz33rmn7leYDYfBP+YoMRSENhf3zJyx3SBASt/OfeQwBHA1nxMis7mM3EV/oYT6Fdw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css"
+      integrity="sha512-9YHSK59/rjvhtDcY/b+4rdnl0V4LPDWdkKceBl8ZLF5TB6745ml1AfluEU6dFWqwDw9lPvnauxFgpKvJqp7jiQ=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
@@ -26,7 +36,7 @@
     <title>kwyntes // SAUNDIX</title>
   </head>
   <body>
-    <div id="social-link-transition"></div>
+    <div id="outbound-transition"></div>
 
     <header>
       <h1>kwyntes</h1>
@@ -35,21 +45,38 @@
     </header>
 
     <div id="social-buttons">
-      <a class="social-button github" href="https://github.com/kwyntes"
-        ><i class="fab fa-github"></i> @kwyntes</a
-      >
-      <a
-        class="social-button youtube"
-        href="https://www.youtube.com/channel/UCgKJ63JuRY7dNUDHGLGoo2Q"
-        ><i class="fab fa-youtube"></i> SAUNDIX</a
-      >
-      <a
-        class="social-button soundcloud"
-        href="https://soundcloud.com/asynchronousongs"
-        ><i class="fab fa-soundcloud"></i> SAUNDIX</a
-      >
+      <a class="social-button github" href="https://github.com/kwyntes">
+        <i class="fab fa-github fa-fw"></i> <span>@kwyntes</span>
+      </a>
+      <a class="social-button youtube" href="https://www.youtube.com/channel/UCgKJ63JuRY7dNUDHGLGoo2Q">
+        <i class="fab fa-youtube fa-fw"></i> <span>SAUNDIX</span>
+      </a>
+      <a class="social-button soundcloud" href="https://soundcloud.com/asynchronousongs">
+        <i class="fab fa-soundcloud fa-fw"></i> <span>SAUNDIX</span>
+      </a>
     </div>
 
-    <script src="index.js"></script>
+    <p id="anti-garbage-msg">
+      (if anyone happens to know <s>CSS or basic webdesign</s> how to make this not look like shit please
+      <a href="mailto:sendmeanemail@kwyntes.nl">hmu</a>)
+    </p>
+
+    <main>
+      <div id="combined-list" class="list"></div>
+      <!-- <div id="side-by-side-wrapper"> -->
+      <div id="yt-videolist" class="list">
+        <!-- yeah no title i guess, a) too complicated too much css, b) its both music actually so seperating videos and music doesnt make sense. 
+              we could call it Latest Youtube Uploads and Latest SoundCloud Uploads   or  just  YouTube  and SoundCloud  or something but ehh well seee igg..
+        -->
+        <!-- <h2>Latest videos</h2> -->
+      </div>
+      <div id="side-by-side-spacer"></div>
+      <div id="sc-tracklist" class="list">
+        <!-- <h2 style="text-align: right">Latest music</h2> -->
+      </div>
+      <!-- </div> -->
+    </main>
+
+    <script src="index.ts" type="module"></script>
   </body>
 </html>
