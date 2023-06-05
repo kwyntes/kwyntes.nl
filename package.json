@@ -2,7 +2,9 @@
   "source": "src/index.html",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build && cp src/_redirects dist/"
+    "build:server": "cd server && rollup",
+    "build:src": "parcel build && cp src/_redirects dist/",
+    "build": "npm run build:server && npm run build:src"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230518.0",
