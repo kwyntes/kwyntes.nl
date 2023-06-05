@@ -2,7 +2,7 @@
   "source": "src/index.html",
   "scripts": {
     "start": "parcel",
-    "build:server": "cd server && rollup",
+    "build:server": "cd server && rollup --config",
     "build:src": "parcel build && cp src/_redirects dist/",
     "build": "npm run build:server && npm run build:src"
   },
