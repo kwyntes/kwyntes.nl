@@ -57,7 +57,7 @@ latestUploads.forEach((upload, index) => {
   const formattedUploadDate =
     ('0' + uploadDate.getDate()).slice(-2) +
     '-' +
-    ('0' + uploadDate.getMonth()).slice(-2) +
+    ('0' + (uploadDate.getMonth() + 1)).slice(-2) +
     '-' +
     uploadDate.getFullYear();
 
