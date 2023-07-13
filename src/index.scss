@@ -354,6 +354,12 @@ main {
     transition: all 150ms;
   }
 }
+.upload-date {
+  position: absolute;
+  right: 32px;
+  bottom: 1px;
+  color: #e7d9ff; // i have stopped caring about colours
+}
 
 .overlay {
   &:before {

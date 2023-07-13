@@ -9,9 +9,6 @@ const combinedList: HTMLDivElement = document.querySelector('#combined-list');
 const ytVideoList: HTMLDivElement = document.querySelector('#yt-videolist');
 const scTrackList: HTMLDivElement = document.querySelector('#sc-tracklist');
 
-// TODO: add a cool outbound transition (-yes thats what well call it-) for the videos and soundcloud tracks
-// --maybe something with animating the card filling up the entire screen and then the colour popping in or smthn idkk yet ~~~
-
 const mediaQuery = matchMedia('(min-width: 1400px)');
 
 // need this because browser windows can be resized
@@ -55,6 +52,15 @@ latestUploads.forEach((upload, index) => {
   const permalink =
     upload.type === 'track' ? upload.permalink_url : `https://youtube.com/watch?v=${upload.videoId}`;
 
+  const uploadDate = new Date(upload.type === 'track' ? upload.created_at : upload.publishedAt);
+  // fuck your locale
+  const formattedUploadDate =
+    ('0' + uploadDate.getDate()).slice(-2) +
+    '-' +
+    ('0' + uploadDate.getMonth()).slice(-2) +
+    '-' +
+    uploadDate.getFullYear();
+
   const targetList = mediaQuery.matches
     ? upload.type === 'track'
       ? scTrackList
@@ -71,6 +77,7 @@ latestUploads.forEach((upload, index) => {
         <div class="content">
           <h3>${upload.title}</h3>
           <p>${upload.description}</p>
+          <span class="upload-date">${formattedUploadDate}</span>
           <i class="fab fa-${upload.type === 'track' ? 'soundcloud' : 'youtube'} fa-fw"></i>
         </div>
       </div>
