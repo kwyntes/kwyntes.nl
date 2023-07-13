@@ -52,7 +52,7 @@ latestUploads.forEach((upload, index) => {
   const permalink =
     upload.type === 'track' ? upload.permalink_url : `https://youtube.com/watch?v=${upload.videoId}`;
 
-  const uploadDate = new Date(upload.type === 'track' ? upload.created_at : upload.publishedAt);
+  const uploadDate = new Date(upload.type === 'track' ? upload.last_modified : upload.publishedAt);
   // fuck your locale
   const formattedUploadDate =
     ('0' + uploadDate.getDate()).slice(-2) +
