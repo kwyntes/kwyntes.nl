@@ -123,11 +123,11 @@ export default async (request: Request, env: Env) => {
       ...latestUploads.tracks.map(track => ({ ...track, type: 'track' as const })),
       ...latestUploads.videos.map(video => ({ ...video, type: 'video' as const })),
     ]
-      // sort tracks and videos by either last modified date or published at date descending, whichever applies
+      // sort tracks and videos by either created at date or published at date descending, whichever applies
       .sort(
         (a, b) =>
-          new Date(b.type === 'track' ? b.last_modified : b.publishedAt).valueOf() -
-          new Date(a.type === 'track' ? a.last_modified : a.publishedAt).valueOf()
+          new Date(b.type === 'track' ? b.created_at : b.publishedAt).valueOf() -
+          new Date(a.type === 'track' ? a.created_at : a.publishedAt).valueOf()
       );
 
     return Response.json(latestUploadsMerged);
