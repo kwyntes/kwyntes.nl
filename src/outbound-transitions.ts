@@ -16,10 +16,18 @@ document.querySelectorAll('.social-button').forEach(socialButton => {
   });
 });
 
-// reset the overlay when user returns to the page via the back button
-const resetOverlay = () => obt.classList.remove(...obt.classList);
-window.addEventListener('pageshow', resetOverlay);
-document.addEventListener('visibilitychange', resetOverlay);
+// reset overlays and animations when user returns to the page via the back button
+const resetAll = () => {
+  obt.classList.remove(...obt.classList);
+
+  document.querySelectorAll('.upload-wrapper').forEach(uw => {
+    uw.classList.remove('fade-out');
+    uw.getAnimations().forEach(anim => anim.cancel());
+    uw.firstElementChild.classList.remove('overlay', 'soundcloud', 'youtube');
+  });
+};
+window.addEventListener('pageshow', resetAll);
+document.addEventListener('visibilitychange', resetAll);
 
 /* === uploads === */
 
