@@ -16,6 +16,8 @@ document.querySelectorAll('.social-button').forEach(socialButton => {
   });
 });
 
+let addOverlayClassTimeout;
+
 // reset overlays and animations when user returns to the page via the back button
 const resetAll = () => {
   obt.classList.remove(...obt.classList);
@@ -23,6 +25,10 @@ const resetAll = () => {
   document.querySelectorAll('.upload-wrapper').forEach(uw => {
     uw.classList.remove('fade-out');
     uw.getAnimations().forEach(anim => anim.cancel());
+
+    // prevent the overlay classes from being added from the timeout after removing them here
+    clearTimeout(addOverlayClassTimeout);
+
     uw.firstElementChild.classList.remove('overlay', 'soundcloud', 'youtube');
   });
 };
@@ -67,7 +73,7 @@ document.addEventListener('click', async e => {
       { fill: 'forwards', duration: 500, easing: 'ease-in-out' }
     );
     // when the first stage finishes (animations are event-based, not synchronous), fade the contents to the brand colour
-    setTimeout(
+    addOverlayClassTimeout = setTimeout(
       () =>
         target.firstElementChild.classList.add(
           'overlay',
