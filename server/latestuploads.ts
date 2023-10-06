@@ -132,6 +132,10 @@ export default async (request: Request, env: Env) => {
 
     return Response.json(latestUploadsMerged);
   } catch (e) {
-    return new Response(e.message + ' ' + (e as Error).cause + ' ' + e.stack, { status: 500 });
+    if (e instanceof Error) {
+      return new Response(e.message + ' ' + (e as Error).cause + ' ' + e.stack, { status: 500 });
+    } else {
+      return new Response('Error:  ' + e, { status: 500 });
+    }
   }
 };
