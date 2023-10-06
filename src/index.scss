@@ -386,3 +386,11 @@ main {
     }
   }
 }
+
+#error-msg {
+  font-family: 'Roboto Mono', monospace;
+  text-align: center;
+  font-size: 0.8em;
+  width: 100%;
+  color: #ef7284; // complementary to the turquoise colour
+}

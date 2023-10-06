@@ -37,41 +37,45 @@ mediaQuery.addEventListener('change', e => {
 });
 
 // TODO: error handling!!!
-const latestUploads: LatestUploadsMerged = await fetch('/latestuploads?merged=true').then(res => res.json());
+try {
+  const latestUploads: LatestUploadsMerged = await fetch('/latestuploads?merged=true')
+    .then(res => (res.ok ? res : Promise.reject(res)))
+    .then(res => res.json())
+    .catch(async res => Promise.reject(await res.text()));
 
-latestUploads.forEach((upload, index) => {
-  const thumbnailUrl =
-    upload.type === 'track'
-      ? upload.artwork_url
-      : (
-          upload.thumbnails.maxres ??
-          upload.thumbnails.high ??
-          upload.thumbnails.medium ??
-          upload.thumbnails.default
-        ).url;
-  const permalink =
-    upload.type === 'track' ? upload.permalink_url : `https://youtube.com/watch?v=${upload.videoId}`;
+  latestUploads.forEach((upload, index) => {
+    const thumbnailUrl =
+      upload.type === 'track'
+        ? upload.artwork_url
+        : (
+            upload.thumbnails.maxres ??
+            upload.thumbnails.high ??
+            upload.thumbnails.medium ??
+            upload.thumbnails.default
+          ).url;
+    const permalink =
+      upload.type === 'track' ? upload.permalink_url : `https://youtube.com/watch?v=${upload.videoId}`;
 
-  const uploadDate = new Date(upload.type === 'track' ? upload.created_at : upload.publishedAt);
-  // fuck your locale
-  const formattedUploadDate =
-    ('0' + uploadDate.getDate()).slice(-2) +
-    '-' +
-    ('0' + (uploadDate.getMonth() + 1)).slice(-2) +
-    '-' +
-    uploadDate.getFullYear();
+    const uploadDate = new Date(upload.type === 'track' ? upload.created_at : upload.publishedAt);
+    // fuck your locale
+    const formattedUploadDate =
+      ('0' + uploadDate.getDate()).slice(-2) +
+      '-' +
+      ('0' + (uploadDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      uploadDate.getFullYear();
 
-  const targetList = mediaQuery.matches
-    ? upload.type === 'track'
-      ? scTrackList
-      : ytVideoList
-    : combinedList;
+    const targetList = mediaQuery.matches
+      ? upload.type === 'track'
+        ? scTrackList
+        : ytVideoList
+      : combinedList;
 
-  // TODO: display date on this as well
-  targetList.insertAdjacentHTML(
-    'beforeend',
-    // using the index in the array as a sort index since the array was presorted server-side already
-    `<a class="upload-wrapper" href="${permalink}" data-type="${upload.type}" data-sort-index="${index}">
+    // TODO: display date on this as well
+    targetList.insertAdjacentHTML(
+      'beforeend',
+      // using the index in the array as a sort index since the array was presorted server-side already
+      `<a class="upload-wrapper" href="${permalink}" data-type="${upload.type}" data-sort-index="${index}">
       <div>
         <img class="${upload.type === 'track' ? 'soundcloud' : 'youtube'}" src="${thumbnailUrl}" />
         <div class="content">
@@ -82,5 +86,8 @@ latestUploads.forEach((upload, index) => {
         </div>
       </div>
     </a>`
-  );
-});
+    );
+  });
+} catch (e) {
+  document.querySelector('main').insertAdjacentHTML('afterbegin', `<p id="error-msg">${e}</p>`);
+}

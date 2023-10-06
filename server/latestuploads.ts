@@ -28,7 +28,7 @@ namespace SoundCloudAPI {
 
         return clientId ?? Promise.reject();
       })
-    ).catch(() => Promise.reject("Couldn't extract client_id."));
+    ).catch(() => Promise.reject("Couldn't extract SoundCloud client_id."));
   }
 
   export async function fetchTracks(clientId: string): Promise<SCAPIv2TrackList> {
