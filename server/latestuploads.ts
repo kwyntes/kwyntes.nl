@@ -17,7 +17,11 @@ import { keys } from 'ts-transformer-keys';
 namespace SoundCloudAPI {
   // based on https://github.com/ytdl-org/youtube-dl/blob/b8a86dcf1aa837577178ae25357d8241ab4ba6c1/youtube_dl/extractor/soundcloud.py#L277
   export async function extractClientId() {
-    const html = await fetch('https://soundcloud.com/').then(res => res.text());
+    // proxy the request to https://soundcloud.com/ through my own site since we're getting blocked by cloudfront otherwise
+    const html = await fetch('https://alpha.kwyntes.nl/~/sc_proxy').then(res => res.text());
+
+    console.log(html);
+
     const scriptTagMatches = Array.from(html.matchAll(/<script[^>]+src="([^"]+)"/g));
 
     return Promise.any(
