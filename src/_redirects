@@ -1,7 +1,9 @@
 # social links
 
-/gh           https://github.com/kwyntes
-/github       https://github.com/kwyntes
+/gh             https://github.com/kwyntes
+/github         https://github.com/kwyntes
+/gh/:repo       https://github.com/kwyntes/:repo
+/github/:repo   https://github.com/kwyntes/:repo
 
 /yt           https://www.youtube.com/channel/UCgKJ63JuRY7dNUDHGLGoo2Q
 /youtube      https://www.youtube.com/channel/UCgKJ63JuRY7dNUDHGLGoo2Q
