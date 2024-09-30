@@ -96,7 +96,7 @@ export default async (request: Request, env: Env) => {
         // sort by last modified date descending
         .sort((a, b) => new Date(b.last_modified).valueOf() - new Date(a.last_modified).valueOf())
         // take first 5
-        .slice(0, 5)
+        .slice(0, 7)
         // take only a subset of the keys
         .map(track =>
           pick(
