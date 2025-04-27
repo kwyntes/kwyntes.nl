@@ -109,6 +109,8 @@ header {
     border: 1px solid from-theme($turquoise, $blue-caryola);
   }
   border-radius: 6px;
+  border-top: 1px solid #0000;
+  border-bottom: 1px solid #0000;
   text-decoration: none;
 
   transition: all 150ms;
@@ -236,7 +238,7 @@ main {
   display: block;
   padding: 10px;
   box-shadow: lighten($turquoise, 0) 0px 2px 5px;
-  border: 1px solid $turquoise;
+  border: none;
   border-radius: 15px;
   background: lighten($black, 0);
   //font-family: 'Roboto Mono';
