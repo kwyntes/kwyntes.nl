@@ -52,7 +52,7 @@ namespace SoundCloudAPI {
 namespace YouTubeAPI {
   export async function fetchVideos(apiKey: string): Promise<YTDataAPIv3PlaylistItems> {
     // prettier-ignore
-    return fetch(`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${YT_UPLOADS_PLAYLIST_ID}&key=${apiKey}`)
+    return fetch(`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${YT_UPLOADS_PLAYLIST_ID}&key=${apiKey}`)
       .then(res => res.json());
   }
 }
@@ -95,7 +95,7 @@ export default async (request: Request, env: Env) => {
       tracks: tracks.collection
         // sort by last modified date descending
         .sort((a, b) => new Date(b.last_modified).valueOf() - new Date(a.last_modified).valueOf())
-        // take first 5
+        // take first 5 (lol i never updated this to say 7 and it actually confused the hell out of me)
         .slice(0, 7)
         // take only a subset of the keys
         .map(track =>
@@ -109,6 +109,8 @@ export default async (request: Request, env: Env) => {
       videos: (await YouTubeAPI.fetchVideos(env.YT_API_KEY)).items
         // filter out bobawhale livestream vods (why doesn't he just save the vods himself (╥﹏╥) ╰(◣﹏◢)╯)
         .filter(item => !item.snippet.title.includes("bobawhale"))
+        // take first 5
+        .slice(0, 5)
         // take only a subset of the keys
         .map(item => ({
           // shortened resourceId.videoId to videoId - trust me, it makes sense to write it this way
