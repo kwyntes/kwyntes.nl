@@ -107,6 +107,8 @@ export default async (request: Request, env: Env) => {
         ),
 
       videos: (await YouTubeAPI.fetchVideos(env.YT_API_KEY)).items
+        // filter out bobawhale livestream vods (why doesn't he just save the vods himself (╥﹏╥) ╰(◣﹏◢)╯)
+        .filter(item => !item.snippet.title.includes("bobawhale"))
         // take only a subset of the keys
         .map(item => ({
           // shortened resourceId.videoId to videoId - trust me, it makes sense to write it this way
